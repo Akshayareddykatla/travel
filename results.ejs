@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Matching Travel Buddies</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f8ff; padding: 20px; }
+    .buddy-card {
+      background: #fff;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 15px;
+      background: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .btn:hover { background: #45a049; }
+  </style>
+</head>
+<body>
+  <h1>Matching Travel Buddies</h1>
+
+  <% if (users.length === 0) { %>
+    <p>No matches found.</p>
+  <% } else { %>
+    <% users.forEach(function(user) { %>
+      <div class="buddy-card">
+        <p><strong>Name:</strong> <%= user.fullName %></p>
+        <p><strong>Destination:</strong> <%= user.destination %></p>
+        <p><strong>Dates:</strong>
+          <%= user.startDate.toDateString() %> — 
+          <%= user.endDate.toDateString() %>
+        </p>
+        <p><strong>Preferences:</strong> <%= user.preferences %></p>
+        <p><strong>Gender:</strong> <%= user.gender %></p>
+        <a href="/user/<%= user._id %>" class="btn">View Profile</a>
+      </div>
+    <% }); %>
+  <% } %>
+
+  <p><a href="/travelpartner" class="btn">Back to Search</a></p>
+</body>
+</html>

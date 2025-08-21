@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+    strong {
+      color: #4CAF50;
+    }
+    .btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 30px;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="welcomeMsg">Welcome!</h1>
+  <p><strong>Email:</strong> <span id="userEmail"></span></p>
+  <p><strong>Full Name:</strong> <span id="userFullName"></span></p>
+  <p><strong>Travel Preferences:</strong> <span id="userTravelPreferences"></span></p>
+  <p><strong>Travel Destination:</strong> <span id="userTravelDestination"></span></p>
+  <p><strong>Travel Start Date:</strong> <span id="userTravelStartDate"></span></p>
+  <p><strong>Travel End Date:</strong> <span id="userTravelEndDate"></span></p>
+  <p><strong>Gender:</strong> <span id="userGender"></span></p>
+
+  <!-- Find Buddy Button -->
+  <button onclick="window.location.href='/travel-partner'" class="btn">Find a Travel Buddy</button>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if (user) {
+      document.getElementById('welcomeMsg').textContent = `Welcome, ${user.username}!`;
+      document.getElementById('userEmail').textContent = user.email || '';
+      document.getElementById('userFullName').textContent = user.fullName || '';
+      document.getElementById('userTravelPreferences').textContent = user.travelPreferences || '';
+      document.getElementById('userTravelDestination').textContent = user.travelDestination || '';
+      document.getElementById('userTravelStartDate').textContent = user.travelDates?.start || '';
+      document.getElementById('userTravelEndDate').textContent = user.travelDates?.end || '';
+      document.getElementById('userGender').textContent = user.gender || '';
+    } else {
+      window.location.href = '/login';
+    }
+  </script>
+
+</body>
+</html>

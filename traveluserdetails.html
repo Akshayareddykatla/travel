@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Buddy Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .btn-success {
+            background: #38a169;
+            color: white;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .auth-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #c6f6d5;
+            color: #2f855a;
+            border: 1px solid #9ae6b4;
+        }
+
+        .alert-error {
+            background: #fed7d7;
+            color: #c53030;
+            border: 1px solid #fbb6ce;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .travel-plan {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .travel-plan h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .travel-plan p {
+            margin: 5px 0;
+            color: #718096;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .buddy-request {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #38a169;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+
+        .close:hover {
+            color: #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+           
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+           
+            .nav {
+                flex-direction: column;
+                text-align: center;
+            }
+           
+            .nav-buttons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <nav class="nav">
+                <div class="logo">
+                    🌍 Travel Buddy Finder
+                </div>
+                <div class="nav-buttons" id="navButtons">
+                    <button class="btn btn-primary" onclick="showLogin()">Login</button>
+                    <button class="btn btn-secondary" onclick="showRegister()">Register</button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content" id="mainContent">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen">
+                <div style="text-align: center; padding: 60px 20px;">
+                    <h1 style="font-size: 3rem; margin-bottom: 20px; color: #667eea;">Find Your Perfect Travel Buddy!</h1>
+                    <p style="font-size: 1.2rem; color: #4a5568; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        Connect with like-minded travelers, share amazing experiences, and make memories that last a lifetime.
+                        Start your journey today!
+                    </p>
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="showRegister()" style="font-size: 1.1rem; padding: 15px 30px;">Get Started</button>
+                        <button class="btn btn-secondary" onclick="showLogin()" style="font-size: 1.1rem; padding: 15px 30px;">Sign In</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboard" class="hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2 style="color: #667eea;">Welcome back, <span id="userName"></span>!</h2>
+                    <div>
+                        <button class="btn btn-primary" onclick="showCreatePlan()">Create Travel Plan</button>
+                        <button class="btn btn-secondary" onclick="showProfile()">Profile</button>
+                        <button class="btn btn-danger" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+
+                <div class="dashboard">
+                    <div class="section">
+                        <h3>🗺️ Find Travel Buddies</h3>
+                        <div class="search-form">
+                            <input type="text" class="form-control" id="searchDestination" placeholder="Destination">
+                            <input type="date" class="form-control" id="searchStartDate">
+                            <input type="date" class="form-control" id="searchEndDate">
+                            <select class="form-control" id="searchBudget">
+                                <option value="">Any Budget</option>
+                                <option value="low">Low Budget</option>
+                                <option value="medium">Medium Budget</option>
+                                <option value="high">High Budget</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="searchTravelPlans()">Search</button>
+                        </div>
+                        <div id="searchResults" class="loading">Search for travel plans to find your perfect buddy!</div>
+                    </div>
+
+                    <div class="section">
+                        <h3>✈️ My Travel Plans</h3>
+                        <div id="myTravelPlans" class="loading">Loading your travel plans...</div>
+                    </div>
+                </div>
+
+                <div class="section" style="grid-column: 1 / -1; margin-top: 20px;">
+                    <h3>📨 Buddy Requests</h3>
+                    <div id="buddyRequests" class="loading">Loading buddy requests...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2 style="color: #667eea; margin-bottom: 25px; text-align: center;">Login</h2>
+            <form class="auth-form" onsubmit="login(event)">
+                <div class="form-group">
+                    <label for="loginUsername">Username or Email</label>
+                    <input type="text" class="form-control" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; color: #4a5568;">
+                Don't have an account? <a href="#" onclick="showRegister(); closeModal('loginModal');" style="color: #667eea;">Register here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h2 style="color: #667eea; margin-bottom: 25px; text-align: center;">Create Account</h2>
+        
+        <form class="auth-form" onsubmit="register(event)">
+            <!-- Form fields... -->
+            <div class="form-group">
+                <label for="regUsername">Username</label>
+                <input type="text" class="form-control" id="regUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="regEmail">Email</label>
+                <input type="email" class="form-control" id="regEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="regFullName">Full Name</label>
+                <input type="text" class="form-control" id="regFullName" required>
+            </div>
+            <div class="form-group">
+                <label for="regPassword">Password</label>
+                <input type="password" class="form-control" id="regPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="regTravelPreferences">Travel Preferences</label>
+                <textarea class="form-control" id="regTravelPreferences" rows="2" placeholder="Mountains, beaches, culture, etc."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="regTravelDestination">Travel Destination</label>
+                <input type="text" class="form-control" id="regTravelDestination" placeholder="Paris, Goa, Bali...">
+            </div>
+            <div class="form-group">
+                <label for="regTravelStartDate">Travel Start Date</label>
+                <input type="date" class="form-control" id="regTravelStartDate" required>
+            </div>
+            <div class="form-group">
+                <label for="regTravelEndDate">Travel End Date</label>
+                <input type="date" class="form-control" id="regTravelEndDate" required>
+            </div>
+            <div class="form-group">
+                <label for="regGender">Gender</label>
+                <select class="form-control" id="regGender" required>
+                    <option value="">Select...</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px; color: #4a5568;">
+            Already have an account? <a href="#" onclick="showLogin(); closeModal('registerModal');" style="color: #667eea;">Login here</a>
+        </p>
+    </div>
+</div>
+
+
+    <!-- Create Travel Plan Modal -->
+    <div id="createPlanModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('createPlanModal')">&times;</span>
+            <h2 style="color: #667eea; margin-bottom: 25px; text-align: center;">Create Travel Plan</h2>
+            <form onsubmit="createTravelPlan(event)">
+                <div class="form-group">
+                    <label for="planDestination">Destination</label>
+                    <input type="text" class="form-control" id="planDestination" required>
+                </div>
+                <div class="form-group">
+                    <label for="planStartDate">Start Date</label>
+                    <input type="date" class="form-control" id="planStartDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="planEndDate">End Date</label>
+                    <input type="date" class="form-control" id="planEndDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="planBudget">Budget Range</label>
+                    <select class="form-control" id="planBudget">
+                        <option value="low">Low Budget</option>
+                        <option value="medium" selected>Medium Budget</option>
+                        <option value="high">High Budget</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="planType">Travel Type</label>
+                    <select class="form-control" id="planType">
+                        <option value="adventure">Adventure</option>
+                        <option value="cultural">Cultural</option>
+                        <option value="relaxation">Relaxation</option>
+                        <option value="business">Business</option>
+                        <option value="other" selected>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="planGroupSize">Group Size</label>
+                    <input type="number" class="form-control" id="planGroupSize" min="2" max="10" value="2">
+                </div>
+                <div class="form-group">
+                    <label for="planDescription">Description</label>
+                    <textarea class="form-control" id="planDescription" rows="4" placeholder="Tell us about your travel plans..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Plan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('profileModal')">&times;</span>
+            <h2 style="color: #667eea; margin-bottom: 25px; text-align: center;">Profile</h2>
+            <form onsubmit="updateProfile(event)">
+                <div class="form-group">
+                    <label for="profileFullName">Full Name</label>
+                    <input type="text" class="form-control" id="profileFullName">
+                </div>
+                <div class="form-group">
+                    <label for="profileBio">Bio</label>
+                    <textarea class="form-control" id="profileBio" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="profileInterests">Interests</label>
+                    <input type="text" class="form-control" id="profileInterests">
+                </div>
+                <div class="form-group">
+                    <label for="profilePhone">Phone</label>
+                    <input type="tel" class="form-control" id="profilePhone">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Update Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    
+    const API_BASE = 'http://127.0.0.1:5000/api';
+    let currentUser = null;
+
+    // Show modals
+    function showLogin() {
+        document.getElementById('loginModal').style.display = 'block';
+    }
+
+    function showRegister() {
+        document.getElementById('registerModal').style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    function showCreatePlan() {
+        document.getElementById('createPlanModal').style.display = 'block';
+    }
+
+    function showProfile() {
+        loadProfile();
+        document.getElementById('profileModal').style.display = 'block';
+    }
+
+    // Close modals on outside click
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    }
+
+    // Register logic
+    async function register(event) {
+        event.preventDefault();
+
+          const username = document.getElementById('regUsername').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const fullName = document.getElementById('regFullName').value;
+    const travelPreferences = document.getElementById('regTravelPreferences').value;
+    const travelDestination = document.getElementById('regTravelDestination').value;
+    const travelStartDate = document.getElementById('regTravelStartDate').value;
+    const travelEndDate = document.getElementById('regTravelEndDate').value;
+    const gender = document.getElementById('regGender').value;
+    const travelDates = {
+        start: travelStartDate,
+        end: travelEndDate
+    };
+        try {
+            const response = await fetch(`${API_BASE}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email, password,fullName,travelPreferences,
+                travelDestination,
+                travelDates,
+                gender })
+            });
+
+            if (response.ok) {
+                alert('Registration successful! You can now log in.');
+                closeModal('registerModal');
+                showLogin();
+            } else {
+                const data = await response.json();
+                alert(`Registration failed: ${data.message || 'Unknown error'}`);
+            }
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+        }
+    }
+
+    // Login logic
+    async function login(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+
+        try {
+            const response = await fetch(`${API_BASE}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                currentUser = data.user;
+                // Save user data to localStorage for use in user.html
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            window.location.href = '/user';
+
+            // Redirect to user dashboard
+          
+            } else {
+                const data = await response.json();
+                alert(`Login failed: ${data.message || 'Invalid credentials'}`);
+            }
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+        }
+    }
+
+    // Get Started button (after login)
+    function getStarted() {
+        if (currentUser) {
+            window.location.href = '/plans.html'; // or your dashboard URL
+        } else {
+            alert('Please log in first.');
+            showLogin();
+        }
+    }
+
+    // Sign out
+    function signOut() {
+        currentUser = null;
+        alert('You have been signed out.');
+        updateUIForLogout();
+    }
+
+    // Update UI based on login state
+    function updateUIForLogin() {
+        document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('registerBtn').style.display = 'none';
+        document.getElementById('signOutBtn').style.display = 'inline-block';
+        document.getElementById('getStartedBtn').style.display = 'inline-block';
+    }
+
+    function updateUIForLogout() {
+        document.getElementById('loginBtn').style.display = 'inline-block';
+        document.getElementById('registerBtn').style.display = 'inline-block';
+        document.getElementById('signOutBtn').style.display = 'none';
+        document.getElementById('getStartedBtn').style.display = 'none';
+    }
+</script>
+
+

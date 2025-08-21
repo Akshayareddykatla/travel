@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Matching Travel Buddies</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f8ff; padding: 20px; }
+    .card {
+      background: white;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn {
+      display: inline-block;
+      margin: 5px 5px 0 0;
+      padding: 8px 12px;
+      background: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .btn:hover { background: #45a049; }
+    .nav-buttons { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Matching Travel Buddies</h1>
+
+  {% if users|length == 0 %}
+    <p>No matches found.</p>
+  {% else %}
+    {% for u in users %}
+      <div class="card">
+        <p><strong>Name:</strong> {{ u.full_name }}</p>
+        <p><strong>Email:</strong> {{ u.email }}</p>
+        {% if u.phone %}
+          <p><strong>Mobile:</strong> {{ u.phone }}</p>
+        {% endif %}
+        <p><strong>Destination:</strong> {{ u.travel_destination }}</p>
+        <p><strong>Dates:</strong>
+          {{ u.travel_dates.start.strftime('%b %d, %Y') }}
+          – {{ u.travel_dates.end.strftime('%b %d, %Y') }}
+        </p>
+        <p><strong>Preferences:</strong> {{ u.travel_preferences }}</p>
+        <p><strong>Gender:</strong> {{ u.gender }}</p>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+ <div class="nav-buttons">
+  <a class="btn" href="{{ url_for('travel_partner') }}">Back to Search</a>
+  <a class="btn" href="{{ url_for('user_dashboard') }}">My Dashboard</a>
+  <a class="btn" href="{{ url_for('register_page') }}">Register / Login</a>
+</div>
+</body>
+</html>

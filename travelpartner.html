@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel Together - Buddy Finder System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 28px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    .btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Travel Together - A Travel Buddy Finder System
+  </header>
+
+  <div class="container">
+    <h2>Find Your Travel Partner</h2>
+    <form id="travelBuddyForm" action="/find-buddy" method="POST">
+      <div class="form-group">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your name" />
+      </div>
+
+      <div class="form-group">
+        <label for="destination">Preferred Destination:</label>
+        <input type="text" id="destination" name="preferredDestination" required placeholder="Paris, Goa, Bali..." />
+      </div>
+
+      <div class="form-group">
+        <label for="startDate">Travel Start Date</label>
+        <input type="date" id="startDate" name="startDate" required />
+      </div>
+      <div class="form-group">
+        <label for="endDate">Travel End Date</label>
+        <input type="date" id="endDate" name="endDate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="preferences">Travel Preferences:</label>
+        <textarea id="preferences" name="preferences" rows="4" placeholder="e.g., Mountains, beaches, culture, etc."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Preferred Buddy's Gender:</label>
+        <select id="gender" name="buddyGender">
+          <option value="any">Any</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn">Find My Buddy</button>
+      </div>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2025 Travel Together - Find Your Ideal Buddy Here
+  </footer>
+
+</body>
+</html>
